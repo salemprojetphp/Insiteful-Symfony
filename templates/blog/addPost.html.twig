@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% set currentAction = action %}
 
 {% block body %}
     {{ parent() }}
@@ -8,17 +9,31 @@
     <main class="flex">
             {{ form_start(form) }}
                 <h2 style="position: absolute"><a href="/blog"><</a></h2>
+
+                {% if currentAction == 'add'}
                 <h2 class="mb32 form-title">Add Post</h2>
+                {% else %}*
+                <h2 class="mb32 form-title">Edit Post</h2>
+                {% endif %}
+    
                 <label for="title">Title</label>
-                {{ form_row(form.title) }}
+                {{ form_row(form.title, {
+                    'value': currentAction == 'edit' ? post.title : null
+                }) }}
                 <br>
-                {{ form_row(form.description) }}
+                {{ form_row(form.description, {
+                    'value': currentAction == 'edit' ? post.description : null
+                }) }}
                 <br>
                 <label for="bg-color">Background Color</label>
                 <div class="color-inputs">
-                {{ form_row(form.bgColor1) }}
+                {{ form_row(form.bgColor1,  {
+                    'value': currentAction == 'edit' ? post.bgColor1 : null
+                }) }}
                 <br>
-                {{ form_row(form.bgColor2) }}
+                {{ form_row(form.bgColor2,  {
+                    'value': currentAction == 'edit' ? post.bgColor2 : null
+                }) }}
                 </div>
                 <br>
                 <div class="image-input-container">

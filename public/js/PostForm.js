@@ -1,6 +1,6 @@
-const titleInput = document.querySelector('#post_title');
-const contentInput = document.querySelector('#post_content');
-const submitButton = document.getElementById('add-btn');    
+// const titleInput = document.querySelector('#post_title');
+// const contentInput = document.querySelector('#post_content');
+// const submitButton = document.getElementById('add-btn');    
 
 //can't submit if title or content is empty
 // submitButton.addEventListener('click', function(event) {

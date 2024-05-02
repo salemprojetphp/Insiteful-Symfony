@@ -29,14 +29,15 @@ class Post
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column]
-    private ?int $author = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bgColor1 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bgColor2 = null;
+
+    #[ORM\ManyToOne(inversedBy: 'posts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -69,7 +70,14 @@ class Post
 
     public function getImage()
     {
-        return $this->image;
+        // Check if $this->image is a valid resource
+        if (is_resource($this->image)) {
+            $imageData = stream_get_contents($this->image);
+            $base64Image = base64_encode($imageData);
+            return $base64Image;
+        } else {
+            return null;
+        }
     }
 
     public function setImage($image): static
@@ -103,18 +111,6 @@ class Post
         return $this;
     }
 
-    public function getAuthor(): ?int
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(int $author): static
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     public function getBgColor1(): ?string
     {
         return $this->bgColor1;
@@ -135,6 +131,18 @@ class Post
     public function setBgColor2(?string $bgColor2): static
     {
         $this->bgColor2 = $bgColor2;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

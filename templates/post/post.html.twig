@@ -1,20 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PostController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    {{parent()}}
+    <link rel="stylesheet" href={{asset('css/Article.css')}}>
+    <link rel="stylesheet" href={{asset('css/general.css')}}>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <main >
+        <div class="full-article" id='<?= $username ?>'>
+            <div class="full-article-content">
+                <!-- Article  -->
+                <h2 style="position: absolute; z-index:3;"><a href="/blog/1/recent"><</a></h2>
+                <div class="article-container">
+                    <h1 class="h2 mb32">{{post.title}}</h1>
+                    <p class="article-content">{{post.description}}</p>
+                    {% set dataImg = post.image %}
+                    {% if dataImg is empty %}
+                        <img src="{{ asset('/images/hello.svg') }}"  alt="article-image" class="article-img mb16">
+                    {% else %}
+                        <img src="data:{{ post.imageFormat }};base64,{{ dataImg }}"   alt="article-image" class="article-img mb16">
+                    {% endif %}
+                    <div class="article-info flex">
+                        <div class="author-info">
+                            <img src={{asset('images/user.png')}} width="32" height="32" alt="author">
+                            <span class="ml8 mr32">{{post.author.username}}</span>
+                        </div>
+                        <span class="caption gray">{{post.date|date('F j, Y')}}</span>
+                        <div class="interact">
+                            <button class="like-btn">
+                                <img src={{asset('images/like.svg')}} alt='like'>
+                                <p>
+                                    0
+                                    {# to change with nb of likes  #}
+                                </p>
+                            </button>
+                            <button>
+                                <img src={{asset('images/comment.svg')}} alt="comment">
+                                <p class="nb-comments">
+                                    0
+                                    {# to change with nb of comments #}
+                                </p>
+                            </button>
+                            {# <?php
+                            if(isset($_SESSION['user']) && $_SESSION['user']->Role == "Admin"){
+                                echo "<button class='more-btn'><img src='../public/images/more.svg' alt='more'></button>";
+                                echo "<div class='dropdown-menu'>
+                                <button class='edit-btn' data-post-id='" .$post["postId"]."'>Edit</button>
+                                <button class='delete-btn' data-post-id='" .$post["postId"]."' >Delete</button>";
+                                echo "</div>";
+                            }
+                            ?> #}
+                        </div>
+                    </div>
+                </div>    
+                <div class="comments-container" id="comments">
+                    <h2 class="h2 mb32">Comments</h2>
+                    <div class="comment-form">
+                        <form id="comment-form" method="POST" action="/blog/comment?id=<?= $postId?>">
+                            <textarea name="comment" class="mb16" placeholder="Write your comment here"></textarea>
+                            <button type="submit" name="button" class="btn-white comment-btn">Comment</button>
+                        </form>
+                    </div>
+                    <div class="comments">
+                        {# <!-- Comment -->
+                        <?php
+                            echo $commentModel->displayComments($postId);
+                            ?> #}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- newsletter -->
+            <div class="blog-sidebar newsletter gradient-orange">
+                <h3 class="mb8">Welcome</h3>
+                <div class="caption gray mb16">Our dedicated team uploads interesting articles on a weekly basis, covering a wide range of topics to inform, inspire, and entertain.</div>
+            </div> 
+        </div>
+    </main>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>E:/GL2 sem2/Web/Insiteful Symfony/src/Controller/PostController.php</code></li>
-        <li>Your template at <code>E:/GL2 sem2/Web/Insiteful Symfony/templates/post/blog.html.twig</code></li>
-    </ul>
-</div>
+    <script src={{asset('js/Blog/Article.js')}} defer></script>
+    <script src={{asset('js/Blog/LikeSystem.js')}} defer></script>
+    <script src={{asset('js/Blog/CommentSystem.js')}} defer></script>
 {% endblock %}

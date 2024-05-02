@@ -20,6 +20,7 @@
 
         <!-- add btn for admin  -->
         {# to do : after sessions #}
+        <a href='/addPost' class='add-btn'>+</a>
 
 
         <!-- contenu -->
@@ -29,11 +30,44 @@
                 <div class="blog-articles" id="blogContainer">
                     <h1 class="h2 mb32">Blog</h1>
                     <!-- Articles -->
-                    {# <?php
-                                $postDisplayer= new Post();
-                                echo $postDisplayer->getAllPosts($page=$currentPage,$filter=$currentFilter);
-                    ?>#}
-                    {# to do : after session : #}
+                    {% for post in posts %}
+                        <a href='/post/{{ post.id }}' class='blog-article bg-white shadow-sm mb32' id='{{post.id}}'>
+                            <div class='blog-preview' style='background: linear-gradient(96.55deg, {{post.bgColor1}} -25.2%, {{post.bgColor2}} 55.15%)'>
+                                {% set dataImg = post.image %}
+                                {% if dataImg is empty %}
+                                    <img src="{{ asset('/images/hello.svg') }}"  width='auto' height='200' alt="Default Image">
+                                {% else %}
+                                    <img src="data:{{ post.imageFormat }};base64,{{ dataImg }}"   width='auto' height='200'alt="{{ post.title }}">
+                                {% endif %}
+                            </div>
+                            <div class='blog-article-content'>
+                                <h2 class='h3 mb16 black'>{{post.title}}</h2>
+                                <div class='blog-description gray mb24'>{{post.description}}</div>
+                                <div class='blog-article-content-info flex caption gray'>
+                                    <div class='flex'>
+                                        <img src='/images/user.png' width='36' height='36' alt='author'>
+                                        <span class='ml8 mr24'>{{post.author.username}}</span>
+                                        <span>{{post.date|date('F j, Y')}}</span>
+                                    </div>
+                                    <div class='interact flex'>
+                                        <button class='like-btn'>
+                                            <img src={{asset('/images/like.svg')}} data-post-id='{{post.id}}' alt='like'>
+                                            <p>10</p>
+                                        </button>
+                                        <button class='comment-btn'>
+                                            <img src={{asset('/images/comment.svg')}} data-post-id='{{post.id}}' alt='comment'>
+                                            <p>5</p>
+                                        </button>
+                                        <button class='more-btn'><img src={{asset('/images/more.svg')}} alt='more'></button>
+                                        <div class='dropdown-menu'>
+                                            <button class='edit-btn' data-post-id='{{post.id}}'>Edit</button>
+                                            <button class='delete-btn' data-post-id='{{post.id}}'>Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
                 </div>
 
                 <!-- newsletter -->

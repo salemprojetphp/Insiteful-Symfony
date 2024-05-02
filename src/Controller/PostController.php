@@ -1,39 +1,98 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\Post;
-use App\Form\PostType;
 
+use App\Form\PostType;
+use App\Entity\Post;
+use App\Entity\User;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PostController extends AbstractController
 {
-    #[Route('/post', name: 'app_post')]
-    public function index(): Response
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        return $this->render('post/blog.html.twig', [
-            'controller_name' => 'PostController',
+        $this->entityManager = $entityManager;
+    }
+
+    #[Route('/post/{id}', name: 'app_post')]
+    public function index($id): Response
+    {
+        $post = $this->entityManager->getRepository(Post::class)->find($id);
+        return $this->render('post/post.html.twig', [
+            'post' => $post,
         ]);
     }
 
     #[Route('/addPost', name: 'app_post_add')]
-    public function addPost(ManagerRegistry $doctrine): Response
+    public function addPost(Request $request): Response
     {
-        $entityManager = $doctrine->getManager();
-
         $post = new Post();
+        $post->setDate(new \DateTime());
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $author = $userRepository->find(1);         
+        $post->setAuthor($author);
         $form = $this->createForm(PostType::class, $post);
 
-        // $entityManager->persist($post);
-        // $entityManager->flush();
+        $form->handleRequest($request);
 
-        //return to the blog page 
+        // Check if the form is submitted and valid
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Persist the post entity
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageData = file_get_contents($imageFile->getPathname());
+                $post->setImage($imageData);
+                $extension = $imageFile->guessExtension();
+                $post->setImageFormat($extension);
+            }
+            $this->entityManager->persist($post);
+            $this->entityManager->flush();
+            
+            // Redirect to the blog page 
+            return $this->redirectToRoute('app_blog', [
+                'page' => 1, 
+                'filter' => 'recent', 
+            ]);
+        }
+
+        // Render the form template
         return $this->render('blog/addPost.html.twig', [
             'form' => $form->createView(),
+            'action' => 'add',
+        ]);
+    }
+
+    #[Route('/deletePost/{id}', name: 'app_delete_post')]
+    public function deletePost($id): Response
+    {
+        $post = $this->entityManager->getRepository(Post::class)->find($id);
+
+        $this->entityManager->remove($post);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_blog', [
+            'page' => 1, 
+            'filter' => 'recent', 
+        ]);
+    }
+
+    #[Route('/editPost/{id}', name: 'app_edit_post')]
+    public function editPost($id) : Response
+    {
+        $post = $this->entityManager->getRepository(Post::class)->find($id);
+        $form = $this->createForm(PostType::class, $post);
+
+        return $this->render('blog/addPost.html.twig', [
+            'form' => $form->createView(),
+            'post' => $post,
+            'action' => 'edit',
         ]);
     }
 }
