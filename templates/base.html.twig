@@ -1,0 +1,33 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSITEFUL</title>
+    <link rel="icon" href={{ asset('images/insiteful.png') }}>
+    <link rel="stylesheet" href={{ asset('css/header.css')}}>
+    <link rel="stylesheet" href={{asset('css/contact.css')}}>
+    {# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link  rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"> #}
+    <script src={{ asset('js/header.js') }} defer></script>
+</head>
+
+{% block body %}
+    <input type="checkbox" id="check">
+    <header>
+        <h2>
+            <a href="/" class="logo"><img src={{ asset('images/insiteful.png') }} alt="logo"></a>
+        </h2>
+        <div class="navigation">
+            <a href="/">Home</a>
+            <a href="/">Dashboard</a>
+            <a href="/">Blog</a>
+            <a href="" class="contact-btn">Contact</a>
+            <a href="/" class="feedback-btn">Feedback</a>
+            <a href="/auth" class="login-btn">Get Started</a>
+        </div>
+        <label for="check">
+            <i class="fas fa-bars menu-btn"></i>
+            <i class="fas fa-times close-btn"></i>
+        </label>
+    </header>
+{% endblock%}

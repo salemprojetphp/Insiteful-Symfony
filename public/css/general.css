@@ -1,0 +1,76 @@
+main a {
+    text-decoration: none;
+    transition: color .2s
+}
+
+.flex {
+    display: flex;
+    width: 100%
+}
+
+.gradient-orange {
+    background: linear-gradient( 142.67deg,#ed3a26b3 0%,#f18635c5 100% )
+}
+
+main h2, main .h2 {
+   font: 700 37px poppins;
+   line-height: 48px
+}
+  
+main h3, main .h3 {
+   font: 700 22px poppins;
+   line-height: 30px
+}
+
+.black {
+    color: #1F254C
+}
+
+.gray {
+    color: #565d8b
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+.bg-red {
+    background-color: #ff606044;
+    border: #fff;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 2px rgba(0,0,0,.04)
+}
+
+.caption {
+    line-height: 19px
+}
+
+
+/* margins */
+.mr24 {
+    margin-right: 24px
+}
+.mb16 {
+    margin-bottom: 16px
+}
+.mb24 {
+    margin-bottom: 24px
+}
+.mb8{
+    margin-bottom: 8px;
+}
+.mb32 {
+    margin-bottom: 32px
+}
+.ml8 {
+    margin-left: 8px
+}
+.ml32{
+    margin-left: 32px
+}
+.ml64 {
+    margin-left: 270px
+}
+

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <link rel="stylesheet" href={{ asset('css/general.css') }} >
+    <link rel="stylesheet" href={{ asset('css/PostForm.css') }} >
+
+    <main class="flex">
+            {{ form_start(form) }}
+                <h2 style="position: absolute"><a href="/blog"><</a></h2>
+                <h2 class="mb32 form-title">Add Post</h2>
+                <label for="title">Title</label>
+                {{ form_row(form.title) }}
+                <br>
+                {{ form_row(form.description) }}
+                <br>
+                <label for="bg-color">Background Color</label>
+                <div class="color-inputs">
+                {{ form_row(form.bgColor1) }}
+                <br>
+                {{ form_row(form.bgColor2) }}
+                </div>
+                <br>
+                <div class="image-input-container">
+                    {{ form_row(form.image) }}
+                    <a class="btn-white" id="no-img-btn">Delete Image</a> 
+                </div>
+                <br> 
+                <div class="image-preview">
+                    <img src={{ asset('images/hello.svg')}} alt="" class="image-preview-image">
+                </div>
+                <div class="btn-container">
+                    <a href="/blog/1/recent" class="btn-white">Cancel</a>
+                    {{form_row(form.submit)}}
+                </div>
+            {{ form_end(form) }}
+    </main>    
+    <script src={{asset('js/PostForm.js')}} defer></script>
+{% endblock %}

@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    color: #1F254C;
+}
+header{
+    position: absolute;
+    display: flex;
+    top: 0;
+    width: 100%;
+    height: 160px;
+    padding: 30px 80px;
+    column-gap: 15%;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+}
+header .logo{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header .logo img{
+    width: 100px;
+    height: 100px;
+}
+header .navigation {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+header .navigation a{
+    color:  #1F254C;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition:  0.3s ;
+}
+header .navigation a.login-btn,
+.user-session-info{
+    color: white;
+    background-image: linear-gradient(to bottom,#1F254C,#353A5D,#4B506F);
+    text-decoration: none;
+    border-radius: 50px;
+    transition: 0.3s;
+    transition-property: background , transform;
+    font-weight: 500;
+    white-space: nowrap;
+}
+header .navigation a.login-btn{
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+header .navigation a:not(:last-child){
+    margin-right: 30px;
+}
+header .navigation a.login-btn:hover,
+.user-session-info:hover {
+    background-image: linear-gradient(to bottom,#1F254C,#353A5D,#4B506F,grey);
+    color: white;
+}
+header .navigation a:hover{
+    background: #F18835;
+    color: white;
+    transform: scale(1.2);
+}
+header label{
+    display: none;
+}
+#check{
+    z-index: 12;
+    display: none;
+}
+
+.selection-menu {
+    position: relative;
+}
+
+.user-session-info{
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    column-gap: 5%;
+    padding-left: 1%;
+    padding-right: 10%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    cursor: pointer;
+}
+.user-session-info span{
+    color: white;
+    white-space: nowrap;
+}
+.user-session-info i{
+    font-size: 20px;
+    color: white;
+    transition: 0.3s;
+}
+.selection-menu.active .user-session-info i{
+    transform: rotate(-180deg);
+}
+
+.selection-menu .options{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 4px rgba(0,0,0,.16);
+    display: none;
+}
+
+.selection-menu.active .options{
+    display: block;
+}
+
+.options .option{
+    display: flex;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 16px;
+    border-radius: 8px;
+    align-items: center;
+    background: #fff;
+}
+
+.options .option:hover{
+    background: white;
+}
+
+.option .option-text{
+    font-size: 15px;
+    color: #1F254C;
+}
+
+.option .option-text:hover{
+    background: #1F254C;
+    color: white;
+}
+
+.dropdown{
+    position: absolute;
+    top: 65%;
+    left: 82%;
+    width: 100px;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    z-index: 13;
+}
+.dropdown a {
+    color: #1F254C;
+    text-decoration: none;
+    padding: 5%;
+}
+.dropdown a:hover{
+    background: #F18835;
+    color: white;
+}
+.navigation a span {
+    border-radius: 50px;
+    height: 14px;
+    font-size: 12px;
+    width: 12px;
+    text-align: center;
+    background-color: #F18835;
+    position: absolute;
+}
+@media (max-width: 960px){
+    header {
+        justify-content: space-between;
+    }
+    header .navigation{
+        display: none;
+    }
+    header label{
+        display: block;
+        font-size: 25px;
+        cursor: pointer;
+    }
+    header label:hover{
+        color: #F18835;
+    }
+    header label .close-btn{
+        display: none;
+    }
+    #check:checked ~ header .navigation{
+        z-index: 2;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        background: rgb(119, 143, 164,0.9);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+    #check:checked ~ header .navigation a{
+        font-weight: 700;
+        margin-right: 0;
+        margin-bottom: 50px;
+        letter-spacing: 2px;
+    }
+    #check:checked ~ header label .menu-btn{
+        display: none;
+    }
+    #check:checked ~ header label .close-btn{
+        z-index: 11;
+        display: block;
+        position: fixed;
+    }
+    header label .menu-btn{
+        position: absolute;
+    }
+    header .logo {
+        position: absolute;
+        bottom: -6px;
+    }
+    .dropdown{
+        position: absolute;
+        top: 355%;
+        left: 30%;
+        z-index: 15;
+    }
+    .dropdown a {
+        background-color: white;
+    }
+}
