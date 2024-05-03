@@ -1,7 +1,7 @@
 const commentsDonutChart = document.getElementById('commentsDonutChart');
 const comments = [];
 const commentsNumbers = [];
-fetch("public/json/adminjson/commentsDonutChart.json").then(response => response.json())
+fetch("./json/adminjson/commentsDonutChart.json").then(response => response.json())
                                             .then(data =>{
                                               for (const key in data){
                                                 comments.push(key);

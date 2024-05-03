@@ -5,7 +5,7 @@ const sourcesNumbers = []
 let sourcesSum = 0;
 //reading the json file and putting the dates(key) in time array and numbers(value) in numbers
 //array 
-fetch("public/json/sources.json").then(response => response.json())
+fetch('/json/sources.json').then(response => response.json())
                                     .then(data => {
                                     for (const key in data){
                                         sources.push(key);

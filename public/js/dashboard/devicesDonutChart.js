@@ -1,7 +1,7 @@
 const devicesDonutChart = document.getElementById('devicesDonutChart');
 const devices = [];
 const devicesNumbers = [];
-fetch("public/json/devicesDonutChart.json").then(response => response.json())
+fetch("/json/devicesDonutChart.json").then(response => response.json())
                                             .then(data =>{
                                               for (const key in data){
                                                 devices.push(key);

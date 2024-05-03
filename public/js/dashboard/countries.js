@@ -5,7 +5,7 @@ const countriesNumbers = []
 let countriesSum = 0;
 //reading the json file and putting the dates(key) in time array and numbers(value) in numbers
 //array 
-fetch("public/json/countries.json").then(response => response.json())
+fetch("/json/countries.json").then(response => response.json())
                                     .then(data => {
                                     for (const key in data){
                                         countries.push(key);

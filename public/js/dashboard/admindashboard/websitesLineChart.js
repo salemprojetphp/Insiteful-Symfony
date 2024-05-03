@@ -1,7 +1,7 @@
 const websitesLineChart = document.getElementById('websitesLineChart');
 const websites = [];
 const websitesNumbers = [];
-fetch("public/json/adminjson/websitesLineChart.json").then(response => response.json())
+fetch("./json/adminjson/websitesLineChart.json").then(response => response.json())
                                             .then(data =>{
                                               for (const key in data){
                                                 websites.push(key);

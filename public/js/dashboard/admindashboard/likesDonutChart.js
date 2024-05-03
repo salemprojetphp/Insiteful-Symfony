@@ -1,7 +1,7 @@
 const likesDonutChart = document.getElementById('likesDonutChart');
 const likes = [];
 const likesNumbers = [];
-fetch("public/json/adminjson/likesDonutChart.json").then(response => response.json())
+fetch("./json/adminjson/likesDonutChart.json").then(response => response.json())
                                             .then(data =>{
                                               for (const key in data){
                                                 likes.push(key);
