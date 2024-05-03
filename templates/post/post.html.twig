@@ -30,15 +30,13 @@
                             <button class="like-btn">
                                 <img src={{asset('images/like.svg')}} alt='like'>
                                 <p>
-                                    0
-                                    {# to change with nb of likes  #}
+                                    {{post.likes.count}}
                                 </p>
                             </button>
                             <button>
                                 <img src={{asset('images/comment.svg')}} alt="comment">
                                 <p class="nb-comments">
-                                    0
-                                    {# to change with nb of comments #}
+                                    {{post.comments.count}}
                                 </p>
                             </button>
                             {# <?php
@@ -62,10 +60,26 @@
                         </form>
                     </div>
                     <div class="comments">
-                        {# <!-- Comment -->
-                        <?php
-                            echo $commentModel->displayComments($postId);
-                            ?> #}
+                        {% for comment in post.comments %}
+                            <div class='comment' id={{comment.id}}>
+                                <div class='comment-info flex'>
+                                    <div class='user'>
+                                        <img src={{asset('images/user.png')}} width='32' height='32' alt='author'>
+                                        <span class='ml8 mr24'>{{comment.user_id.username}}</span>
+                                    </div>
+                                    <span class='gray'>2 hours ago</span>
+                                    <div class='comment-btns'>
+                                        <button class='edit-comment-btn' id='1'>
+                                            <img src={{asset('images/edit.png')}} alt='edit'>
+                                        </button>
+                                        <button class='delete-comment-btn' id='1'>
+                                            <img src={{asset('images/delete.png')}} alt='delete'>
+                                        </button>
+                                    </div>
+                                </div>
+                                <textarea class='comment-content' readonly>{{comment.content}}</textarea>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

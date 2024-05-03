@@ -52,11 +52,11 @@
                                     <div class='interact flex'>
                                         <button class='like-btn'>
                                             <img src={{asset('/images/like.svg')}} data-post-id='{{post.id}}' alt='like'>
-                                            <p>10</p>
+                                            <p>{{post.likes.count}}</p>
                                         </button>
                                         <button class='comment-btn'>
                                             <img src={{asset('/images/comment.svg')}} data-post-id='{{post.id}}' alt='comment'>
-                                            <p>5</p>
+                                            <p>{{post.comments.count}}</p>
                                         </button>
                                         <button class='more-btn'><img src={{asset('/images/more.svg')}} alt='more'></button>
                                         <div class='dropdown-menu'>

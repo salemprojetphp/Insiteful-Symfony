@@ -21,7 +21,7 @@ const session = document.querySelector('body').classList.contains('true');
                 if (currentSrc.includes('like.svg')) {
                     newSrc = '/images/like-active.svg';
                     nbLikes.textContent= parseInt(nbLikes.textContent) + 1;
-                    fetch(`/blog/like?id=${img.dataset.postId}`, {
+                    fetch(`/post/like/${img.dataset.postId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ const session = document.querySelector('body').classList.contains('true');
                 } else {
                     newSrc = '/images/like.svg';
                     nbLikes.textContent= parseInt(nbLikes.textContent) - 1;
-                    fetch(`/blog/dislike?id=${img.dataset.postId}`, {
+                    fetch(`/post/dislike/${img.dataset.postId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

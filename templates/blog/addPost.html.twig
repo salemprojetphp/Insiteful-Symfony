@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 {% set currentAction = action %}
-{% set dataImg = image %}
+{% if currentAction == 'edit' %}    
+    {% set dataImg = post.image %}
+{% endif %}
 
-{% block body %}
+{% block body %}     
     {{ parent() }}  
     <link rel="stylesheet" href={{ asset('css/general.css') }} >
     <link rel="stylesheet" href={{ asset('css/PostForm.css') }} >
@@ -35,11 +37,11 @@
                 <label for="bg-color">Background Color</label>
                 <div class="color-inputs">
                 {{ form_row(form.bgColor1,  {
-                    'value': currentAction == 'edit' ? post.bgColor1 : null
+                    'value': currentAction == 'edit' ? post.bgColor1 : '#00ffff'
                 }) }}
                 <br>
                 {{ form_row(form.bgColor2,  {
-                    'value': currentAction == 'edit' ? post.bgColor2 : null
+                    'value': currentAction == 'edit' ? post.bgColor2 : '#147efb'
                 }) }}
                 </div>
                 <br>

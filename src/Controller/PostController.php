@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class PostController extends AbstractController
 {
@@ -31,13 +33,16 @@ class PostController extends AbstractController
     }
 
     #[Route('/addPost', name: 'app_post_add')]
-    public function addPost(Request $request): Response
+    public function addPost(SessionInterface $session,Request $request): Response
     {
         $post = new Post();
         $post->setDate(new \DateTime());
+
         $userRepository = $this->entityManager->getRepository(User::class);
-        $author = $userRepository->find(1);         
+        $authorID = $session->get('user')->getId();
+        $author = $userRepository->find($authorID);
         $post->setAuthor($author);
+
         $form = $this->createForm(PostType::class, $post);
 
         $form->handleRequest($request);
@@ -45,25 +50,28 @@ class PostController extends AbstractController
         // Check if the form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('image')->getData();
+            
             if ($imageFile) {
                 $imageData = file_get_contents($imageFile->getPathname());
                 $post->setImage($imageData);
                 $extension = $imageFile->guessExtension();
                 $post->setImageFormat($extension);
             }
+
             $this->entityManager->persist($post);
-            $this->entityManager->flush();
+            $this->entityManager->flush();  
             
             return $this->redirectToRoute('app_blog', [
                 'page' => 1, 
                 'filter' => 'recent', 
             ]);
         }
-
+        
         // Render the form template
         return $this->render('blog/addPost.html.twig', [
             'form' => $form->createView(),
             'action' => 'add',
+            'image' => null,
         ]);
     }
 
