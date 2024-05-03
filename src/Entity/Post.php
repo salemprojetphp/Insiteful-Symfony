@@ -68,6 +68,10 @@ class Post
         return $this;
     }
 
+    public function getOriginalImageData(){
+        return $this->image;
+    }
+
     public function getImage()
     {
         // Check if $this->image is a valid resource

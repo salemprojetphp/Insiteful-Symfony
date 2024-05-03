@@ -89,10 +89,13 @@ function toHex(color) {
 
 [firstColorInput,secondColorInput].forEach(
     element => element.addEventListener('input', function() {
-        console.log('input');
-        let bgColor1 = toHex(firstColorInput.value);
-        let bgColor2 = toHex(secondColorInput.value);
-        imagePreview.style.background = `linear-gradient(96.55deg, ${bgColor1} -25.2%, ${bgColor2} 55.15%)`;
+        adaptPreviewColors();
     })
 );
-    
+
+function adaptPreviewColors(){
+    let bgColor1 = toHex(firstColorInput.value);
+    let bgColor2 = toHex(secondColorInput.value);
+    imagePreview.style.background = `linear-gradient(96.55deg, ${bgColor1} -25.2%, ${bgColor2} 55.15%)`;
+}
+adaptPreviewColors();

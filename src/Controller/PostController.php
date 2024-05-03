@@ -44,7 +44,6 @@ class PostController extends AbstractController
 
         // Check if the form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persist the post entity
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
                 $imageData = file_get_contents($imageFile->getPathname());
@@ -55,7 +54,6 @@ class PostController extends AbstractController
             $this->entityManager->persist($post);
             $this->entityManager->flush();
             
-            // Redirect to the blog page 
             return $this->redirectToRoute('app_blog', [
                 'page' => 1, 
                 'filter' => 'recent', 
@@ -84,14 +82,36 @@ class PostController extends AbstractController
     }
 
     #[Route('/editPost/{id}', name: 'app_edit_post')]
-    public function editPost($id) : Response
+    public function editPost(Request $request,$id) : Response
     {
         $post = $this->entityManager->getRepository(Post::class)->find($id);
-        $form = $this->createForm(PostType::class, $post);
+        $originalImage = $post->getOriginalImageData();
+        $image = ($post->getImage());
+        $form = $this->createForm(PostType::class, $post);  
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageData = file_get_contents($imageFile->getPathname());
+                $post->setImage($imageData);
+                $extension = $imageFile->guessExtension();
+                $post->setImageFormat($extension);
+            } else {
+                $post->setImage($originalImage);
+            }
+            $this->entityManager->flush();
+            
+            return $this->redirectToRoute('app_blog', [
+                'page' => 1, 
+                'filter' => 'recent', 
+            ]);
+        }
 
         return $this->render('blog/addPost.html.twig', [
             'form' => $form->createView(),
             'post' => $post,
+            'image' => $image,
             'action' => 'edit',
         ]);
     }

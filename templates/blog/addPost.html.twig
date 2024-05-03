@@ -1,30 +1,37 @@
 {% extends 'base.html.twig' %}
 {% set currentAction = action %}
+{% set dataImg = image %}
 
 {% block body %}
-    {{ parent() }}
+    {{ parent() }}  
     <link rel="stylesheet" href={{ asset('css/general.css') }} >
     <link rel="stylesheet" href={{ asset('css/PostForm.css') }} >
 
     <main class="flex">
             {{ form_start(form) }}
                 <h2 style="position: absolute"><a href="/blog"><</a></h2>
-
-                {% if currentAction == 'add'}
+                
+                {# action  #}
+                {% if currentAction == 'add'%}
                 <h2 class="mb32 form-title">Add Post</h2>
-                {% else %}*
+                {% else %}
                 <h2 class="mb32 form-title">Edit Post</h2>
                 {% endif %}
     
+                {# title #}
                 <label for="title">Title</label>
                 {{ form_row(form.title, {
                     'value': currentAction == 'edit' ? post.title : null
                 }) }}
                 <br>
+
+                {# content  #}
                 {{ form_row(form.description, {
                     'value': currentAction == 'edit' ? post.description : null
                 }) }}
                 <br>
+
+                {# bg Colors #}
                 <label for="bg-color">Background Color</label>
                 <div class="color-inputs">
                 {{ form_row(form.bgColor1,  {
@@ -36,18 +43,34 @@
                 }) }}
                 </div>
                 <br>
+
+                {# image  #}
                 <div class="image-input-container">
                     {{ form_row(form.image) }}
                     <a class="btn-white" id="no-img-btn">Delete Image</a> 
                 </div>
                 <br> 
+
+                {# the preview  #}
                 <div class="image-preview">
-                    <img src={{ asset('images/hello.svg')}} alt="" class="image-preview-image">
+                    {% if image is null %}
+                        <img src={{ asset('images/hello.svg')}} alt="" class="image-preview-image">
+                    {% else %}
+                        <img src="data:{{ post.imageFormat }};base64,{{ image }}" class="image-preview-image"  width='auto' height='200' alt="{{ post.title }}">
+                    {% endif %}    
                 </div>
+
+                {# cancel and add btns  #}
                 <div class="btn-container">
                     <a href="/blog/1/recent" class="btn-white">Cancel</a>
-                    {{form_row(form.submit)}}
+                    {{ form_row(form.submit, {
+                        'label': (action == 'edit') ? 'Edit' : 'Add',
+                        'attr': {
+                            'class': 'btn-blue'
+                        }
+                    }) }}
                 </div>
+
             {{ form_end(form) }}
     </main>    
     <script src={{asset('js/PostForm.js')}} defer></script>
