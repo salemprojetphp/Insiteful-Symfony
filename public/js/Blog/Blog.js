@@ -45,7 +45,7 @@ const posts = document.querySelectorAll('.blog-article');
             e.preventDefault();
             e.stopPropagation();
             if(!e.target.closest('.blog-article-content-info')){
-                window.location.href = `/blog/article?id=${post.id}`;
+                window.location.href = `/post/${post.id}`;
             }
         });
     });
@@ -84,11 +84,11 @@ const dropdownMenus = document.querySelectorAll('.dropdown-menu');
             if (event.target.classList.contains('delete-btn')) {
                 const postId = event.target.dataset.postId;
                 if (confirm('Are you sure you want to delete this post?')) {
-                    window.location.href = `/blog/deletePost?id=${postId}`;
+                    window.location.href = `/deletePost/${postId}`;
                 }
             } else if (event.target.classList.contains('edit-btn')) {
                 const postId = event.target.dataset.postId;
-                window.location.href = `/editPost?id=${postId}`;
+                window.location.href = `/editPost/${postId}`;
             }
         });
     });
@@ -100,6 +100,6 @@ const commentBtns = document.querySelectorAll('.comment-btn');
     commentBtns.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = `/blog/article?id=${btn.querySelector('img').dataset.postId}&comment='true'`;
+            window.location.href = `/post/${btn.querySelector('img').dataset.postId}&comment='true'`;
         });
     });

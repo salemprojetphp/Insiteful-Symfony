@@ -1,6 +1,6 @@
-const titleInput = document.querySelector('#post_title');
-const contentInput = document.querySelector('#post_content');
-const submitButton = document.getElementById('add-btn');    
+// const titleInput = document.querySelector('#post_title');
+// const contentInput = document.querySelector('#post_content');
+// const submitButton = document.getElementById('add-btn');    
 
 //can't submit if title or content is empty
 // submitButton.addEventListener('click', function(event) {
@@ -89,10 +89,13 @@ function toHex(color) {
 
 [firstColorInput,secondColorInput].forEach(
     element => element.addEventListener('input', function() {
-        console.log('input');
-        let bgColor1 = toHex(firstColorInput.value);
-        let bgColor2 = toHex(secondColorInput.value);
-        imagePreview.style.background = `linear-gradient(96.55deg, ${bgColor1} -25.2%, ${bgColor2} 55.15%)`;
+        adaptPreviewColors();
     })
 );
-    
+
+function adaptPreviewColors(){
+    let bgColor1 = toHex(firstColorInput.value);
+    let bgColor2 = toHex(secondColorInput.value);
+    imagePreview.style.background = `linear-gradient(96.55deg, ${bgColor1} -25.2%, ${bgColor2} 55.15%)`;
+}
+adaptPreviewColors();
