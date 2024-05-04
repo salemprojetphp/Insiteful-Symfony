@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <main >
-        <div class="full-article" id='<?= $username ?>'>
+        <div class="full-article" id={{app.session.get('user').username}}>
             <div class="full-article-content">
                 <!-- Article  -->
                 <h2 style="position: absolute; z-index:3;"><a href="/blog/1/recent"><</a></h2>
@@ -56,7 +56,7 @@
                 <div class="comments-container" id="comments">
                     <h2 class="h2 mb32">Comments</h2>
                     <div class="comment-form">
-                        <form id="comment-form" method="POST" action="/blog/comment?id=<?= $postId?>">
+                        <form id="comment-form" method="POST" action="/add/comment/{{post.id}}">
                             <textarea name="comment" class="mb16" placeholder="Write your comment here"></textarea>
                             <button type="submit" name="button" class="btn-white comment-btn">Comment</button>
                         </form>
@@ -67,14 +67,18 @@
                                 <div class='comment-info flex'>
                                     <div class='user'>
                                         <img src={{asset('images/user.png')}} width='32' height='32' alt='author'>
-                                        <span class='ml8 mr24'>{{comment.user_id.username}}</span>
+                                        <span class='ml8 mr24'>{{comment.userId.username}}</span>
                                     </div>
-                                    <span class='gray'>2 hours ago</span>
+                                    <span class='gray'>
+                                        {# i have comment.dateSince that has the date in which the comment was posted i want it to show how much time ago#}
+                                        {{ comment.timeDiff}}
+                                    </span>
+                                    
                                     <div class='comment-btns'>
-                                        <button class='edit-comment-btn' id='1'>
+                                        <button class='edit-comment-btn' id={{comment.id}}>
                                             <img src={{asset('images/edit.png')}} alt='edit'>
                                         </button>
-                                        <button class='delete-comment-btn' id='1'>
+                                        <button class='delete-comment-btn' id={{comment.id}}>
                                             <img src={{asset('images/delete.png')}} alt='delete'>
                                         </button>
                                     </div>

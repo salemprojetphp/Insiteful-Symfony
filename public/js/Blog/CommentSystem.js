@@ -12,13 +12,12 @@ commentBtn.addEventListener('click', function(e) {
     if (!comment) {
         return;
     }
-    if(!session){
-        window.location.href="/auth";
-        return;
-    }
-    fetch(form.action, {
+    // if(!session){
+        // window.location.href=form.action+`/${comment}`;
+    //     return;
+    // }
+    fetch(form.action+`/${comment}`, {
         method: 'POST',
-        body: new FormData(form)
     })
     .then(response => {
         form.reset();
@@ -39,8 +38,8 @@ function assignDeleteEventListeners() {
             event.preventDefault();
             const comment_id = btn.id;
             const comment = btn.closest('.comment');
-            fetch(`/deleteComment?id=${comment_id}`, {
-                method: 'GET'
+            fetch(`/delete/comment/${comment_id}`, {
+                method: 'POST'
             });
             comment.remove();
             nbComments.innerHTML = parseInt(nbComments.innerHTML) - 1;
@@ -53,16 +52,16 @@ function assignEditCommentEventListener() {
             const comment = btn.closest('.comment');
             const textarea = comment.querySelector('.comment-content');
             if (btn.querySelector('img').src.includes('edit.png')) {
-                btn.querySelector('img').src = '../public/images/save.png';
+                btn.querySelector('img').src = '/images/save.png';
                 textarea.readOnly = false; 
                 textarea.focus(); 
             } else {
                 const comment_id = btn.id;
-                fetch(`/editComment?id=${comment_id}&content=${textarea.value}`, {
+                fetch(`/edit/comment/${comment_id}/${textarea.value}`, {
                     method: 'GET'
                 });
                 textarea.readOnly = true; 
-                btn.querySelector('img').src = '../public/images/edit.png';
+                btn.querySelector('img').src = '/images/edit.png';
             }
         });
     });
@@ -79,19 +78,19 @@ function addComment(author, content, time) {
     })
     .then(max_id => {
         const commentHTML = `
-            <div class="comment" id='${max_id}'>
+            <div class="comment" id='${max_id+1}'>
                 <div class="comment-info flex">
                     <div class="user">
-                        <img src="../public/images/user.png" width="32" height="32" alt="author">
+                        <img src="/images/user.png" width="32" height="32" alt="author">
                         <span class="ml8 mr32">${author}</span>
                     </div>
                     <span class="caption gray">${time}</span>
                     <div class='comment-btns'>
-                        <button class='edit-comment-btn' id='${max_id}'>
-                            <img src='../public/images/edit.png' alt='edit'>
+                        <button class='edit-comment-btn' id='${max_id+1}'>
+                            <img src='/images/edit.png' alt='edit'>
                         </button>
-                        <button class='delete-comment-btn' id='${max_id}'>
-                            <img src='../public/images/delete.png' alt='delete'>
+                        <button class='delete-comment-btn' id='${max_id+1}'>
+                            <img src='/images/delete.png' alt='delete'>
                         </button>
                     </div>
                 </div>

@@ -6,6 +6,10 @@ use App\Form\PostType;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Like;
+use App\Entity\Comment;
+use App\Form\CommentType;
+use DateTime;
+use DateTimeZone;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,18 +29,82 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'app_post')]
-    public function index(SessionInterface $session,$id): Response
+    #[Route('/post/{id}/comments', name: 'app_post_comms')]
+    public function index(SessionInterface $session, Request $request, $id): Response
     {
-        $user = $session->get('user')->getId();
-        $post = $this->entityManager->getRepository(Post::class)->find($id);
+        $user = $session->get('user');
+        $postId = (int)$id;
+        
+        // Fetch the post
+        $post = $this->entityManager->getRepository(Post::class)->find($postId);
+        
+        // Check if the user has liked the post
         $liked = $this->entityManager->getRepository(Like::class)->findOneBy([
             'post_id' => $post,
             'user_id' => $user,
         ]) !== null;
+        
+        // Fetch comments for the post
+        $comments = $this->entityManager->getRepository(Comment::class)->findBy(['post_id' => $post]);
+        foreach ($comments as $comment) {
+            $comment->timeDiff = $this->calculateTimeDiff(new \DateTime($comment->getDateSince()));
+        }
+
         return $this->render('post/post.html.twig', [
             'post' => $post,
             'liked' => $liked,
+            'comments' => $comments,
         ]);
+    }
+
+    private function calculateTimeDiff(DateTime $commentDate): string
+    {
+        // Set the timezone of the comment date to the server's timezone
+        $commentDate->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+        // Get the current date and time in the server's timezone
+        $currentDate = new DateTime('now', new DateTimeZone(date_default_timezone_get()));
+
+        // Calculate the difference between the current date and the comment date
+        $interval = $currentDate->diff($commentDate);
+
+        // Format the time difference
+        $format = '';
+        if ($interval->y > 0) {
+            if ($interval->y === 1) {
+                $format = '%y year';
+            } else {
+                $format = '%y years';
+            }
+        } elseif ($interval->m > 0) {
+            if ($interval->m === 1) {
+                $format = '%m month';
+            } else {
+                $format = '%m months';
+            }
+        } elseif ($interval->d > 0) {
+            if ($interval->d === 1) {
+                $format = '%d day';
+            } else {
+                $format = '%d days';
+            }
+        } elseif ($interval->h > 0) {
+            if ($interval->h === 1) {
+                $format = '%h hour';
+            } else {
+                $format = '%h hours';
+            }
+        } elseif ($interval->i > 0) {
+            if ($interval->i === 1) {
+                $format = '%i minute';
+            } else {
+                $format = '%i minutes';
+            }
+        } else {
+            return'Just Now';
+        }
+
+        return $interval->format($format . ' ago');
     }
 
     #[Route('/addPost', name: 'app_post_add')]

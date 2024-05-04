@@ -23,11 +23,48 @@ class BlogController extends AbstractController
     #[Route('/blog/{page}/{filter}', name: 'app_blog')]
     public function index(SessionInterface $session ,$page,$filter): Response
     {
-        $posts = $this->entityManager->getRepository(Post::class)->findAll();
-        // $liked = $this->entityManager->getRepository(Like::class)->findOneBy([
-        //     'post_id' => $post,
-        //     'user_id' => $user,
-        // ]) !== null;
+        $postsPerPage = 5;
+        $currentPage = max(1, $page);
+        $offset = ($currentPage - 1) * $postsPerPage;
+
+        //apply filter
+        switch ($filter) {
+            case 'recent':
+                $postsQuery = $this->entityManager->getRepository(Post::class)
+                    ->createQueryBuilder('p')
+                    ->orderBy('p.date', 'DESC');
+                break;
+            case 'old':
+                $postsQuery = $this->entityManager->getRepository(Post::class)
+                    ->createQueryBuilder('p')
+                    ->orderBy('p.date', 'ASC');
+                break;
+                case 'popular':
+                    $postsQuery = $this->entityManager->getRepository(Post::class)
+                        ->createQueryBuilder('p')
+                        ->select('p, COUNT(l.id) + COUNT(c.id) AS activity')
+                        ->leftJoin('p.likes', 'l')
+                        ->leftJoin('p.comments', 'c')
+                        ->groupBy('p')
+                        ->orderBy('activity', 'DESC');
+                    break;                
+        }
+
+        // Apply pagination
+        $totalPosts = count($postsQuery->getQuery()->getResult());
+        $totalPages = ceil($totalPosts / $postsPerPage);
+        $postsQuery->setFirstResult($offset)
+        ->setMaxResults($postsPerPage);
+        $posts = $postsQuery->getQuery()->getResult();
+        if($filter == 'popular'){
+            $filteredPosts = [];
+            foreach ($posts as $post) {
+                $filteredPosts[] = $post[0];
+            }
+            $posts = $filteredPosts;
+        }
+        // dd($posts);
+        //getting the liked posts
         $user = $session->get('user')->getId();
         $likedPosts = $this->entityManager->getRepository(Like::class)
             ->createQueryBuilder('l')
@@ -36,7 +73,7 @@ class BlogController extends AbstractController
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
-    
+        
         // Extract the post IDs from the array
         $likedPostIds = array_map(function($like) {
             return $like['postId'];
@@ -47,6 +84,7 @@ class BlogController extends AbstractController
             'currentFilter' => $filter,
             'posts' => $posts,
             'liked' => $likedPostIds,
+            'totalPages' => $totalPages,     
         ]);
     }
 

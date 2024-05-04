@@ -100,6 +100,6 @@ const commentBtns = document.querySelectorAll('.comment-btn');
     commentBtns.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = `/post/${btn.querySelector('img').dataset.postId}&comment='true'`;
+            window.location.href = `/post/${btn.dataset.postId}/comments`;            
         });
     });

@@ -36,7 +36,7 @@ const likeBtns = document.querySelectorAll(".like-btn");
                         }
                     })
                 }
-                
+
                 img.setAttribute('src', newSrc);
             // }
         });

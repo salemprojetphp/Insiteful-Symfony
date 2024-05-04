@@ -85,28 +85,26 @@
         </section>
 
         <!-- Pagination buttons -->
-        {# <div class="pagination">
-            <?php
-                $totalPages = ceil($postDisplayer->getTotalPostsCount() / 5);
-            for ($i = 1; $i <= $totalPages; $i++) {
-            if ($totalPages > 8) {
-            if ($i == $currentPage) {
-            echo "<a href='?page=$i&filter=$currentFilter' class='pagination-btn btn-white page-selected'>$i</a>";
-            } elseif ($i == $totalPages || ($i >= $currentPage - 2 && $i <= $currentPage + 2)) {
-            echo "<a href='?page=$i&filter=$currentFilter' class='pagination-btn btn-white'>$i</a>";
-            } elseif ($i == $currentPage - 3 || $i == $currentPage + 3) {
-            echo "<span>...</span>";
-            }
-            } else {
-            if ($i == $currentPage) {
-            echo "<a href='?page=$i&filter=$currentFilter' class='pagination-btn btn-white page-selected'>$i</a>";
-            } else {
-            echo "<a href='?page=$i&filter=$currentFilter' class='pagination-btn btn-white'>$i</a>";
-            }
-            }
-            }
-            ?>
-        </div> #}
+        <div class="pagination">
+            {% for i in 1..totalPages %}
+                {% if totalPages > 8 %}
+                    {% if i == currentPage %}
+                        <a href="/blog/{{ i }}/{{ currentFilter }}" class="pagination-btn btn-white page-selected">{{ i }}</a>
+                    {% elseif i == totalPages or (i >= currentPage - 2 and i <= currentPage + 2) %}
+                        <a href="/blog/{{ i }}/{{ currentFilter }}" class="pagination-btn btn-white">{{ i }}</a>
+                    {% elseif i == currentPage - 3 or i == currentPage + 3 %}
+                        <span>...</span>
+                    {% endif %}
+                {% else %}
+                    {% if i == currentPage %}
+                        <a href="/blog/{{ i }}/{{ currentFilter }}" class="pagination-btn btn-white page-selected">{{ i }}</a>
+                    {% else %}
+                        <a href="/blog/{{ i }}/{{ currentFilter }}" class="pagination-btn btn-white">{{ i }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
     </main>
 
     <script src="{{ asset('js/Blog/Blog.js') }}" defer></script>
