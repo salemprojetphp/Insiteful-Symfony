@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\PostType;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Like;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,11 +25,17 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'app_post')]
-    public function index($id): Response
+    public function index(SessionInterface $session,$id): Response
     {
+        $user = $session->get('user')->getId();
         $post = $this->entityManager->getRepository(Post::class)->find($id);
+        $liked = $this->entityManager->getRepository(Like::class)->findOneBy([
+            'post_id' => $post,
+            'user_id' => $user,
+        ]) !== null;
         return $this->render('post/post.html.twig', [
             'post' => $post,
+            'liked' => $liked,
         ]);
     }
 

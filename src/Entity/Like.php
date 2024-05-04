@@ -17,7 +17,7 @@ class Like
     #[ORM\ManyToOne(inversedBy: 'likes')]
     private ?Post $post_id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'likes', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
 

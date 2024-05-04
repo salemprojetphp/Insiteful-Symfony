@@ -27,9 +27,13 @@
                         </div>
                         <span class="caption gray">{{post.date|date('F j, Y')}}</span>
                         <div class="interact">
-                            <button class="like-btn">
-                                <img src={{asset('images/like.svg')}} alt='like'>
-                                <p>
+                            <button class="like-btn" data-post-id='{{post.id}}'>
+                                {% if liked %}
+                                    <img src={{asset('/images/like-active.svg')}}  alt='like'>
+                                {% else %}
+                                    <img src={{asset('/images/like.svg')}}  alt='like'>
+                                {% endif %}
+                                <p> 
                                     {{post.likes.count}}
                                 </p>
                             </button>
@@ -39,15 +43,13 @@
                                     {{post.comments.count}}
                                 </p>
                             </button>
-                            {# <?php
-                            if(isset($_SESSION['user']) && $_SESSION['user']->Role == "Admin"){
-                                echo "<button class='more-btn'><img src='../public/images/more.svg' alt='more'></button>";
-                                echo "<div class='dropdown-menu'>
-                                <button class='edit-btn' data-post-id='" .$post["postId"]."'>Edit</button>
-                                <button class='delete-btn' data-post-id='" .$post["postId"]."' >Delete</button>";
-                                echo "</div>";
-                            }
-                            ?> #}
+                            {% if  app.session.get('user').role == 'admin' %}
+                                <button class='more-btn'><img src={{asset('images/more.svg')}} alt='more'></button>
+                                <div class='dropdown-menu'>
+                                    <button class='edit-btn' data-post-id='{{post.id}}'>Edit</button>
+                                    <button class='delete-btn' data-post-id='{{post.id}}'>Delete</button>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>    
