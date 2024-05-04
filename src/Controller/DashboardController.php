@@ -19,6 +19,11 @@ class DashboardController extends AbstractController
     #[Route('/')]
     public function index(VisitorsRepository $visitors): Response
     {
+        $visitors->generateJSONFile('', "lineChart", "date");
+        $visitors->generateJSONFile('', "browsersDonutChart", "browser");
+        $visitors->generateJSONFile('', "devicesDonutChart", "device");
+        $visitors->generateJSONFile('', "sources", "source");
+        $visitors->generateJSONFile('', "countries", "country");
         $websites = $visitors->findUserWebsites(1);
         return $this->render('dashboard/dashboard.html.twig', [
             'controller_name' => 'DashboardController',
@@ -34,10 +39,11 @@ class DashboardController extends AbstractController
         $numDirectVisits = $visitors->findNumberOfDirectVisits(1, $website);
         $numSocialMediaVisits = $visitors->findNumberOfSocialMediaVisits(1, $website);
         $numSearchEngines = $visitors->findNumberOfSearchEngines(1, $website);
-        //getting the data and filling the json files for each chart
-        $lineChartData = $visitors->baseChartQuery(1, $website, "date");
-        $visitors->generateJSONFile($lineChartData, "lineChart", "date");
-
+        $this->fillJsonFile(1, $website, "date", $visitors, "lineChart");
+        $this->fillJsonFile(1, $website, "browser", $visitors, "browsersDonutChart");
+        $this->fillJsonFile(1, $website, "device", $visitors, "devicesDonutChart");
+        $this->fillJsonFile(1, $website, "referrer", $visitors, "sources");
+        $this->fillJsonFile(1, $website, "country", $visitors, "countries");
         return $this->render('dashboard/dashboard.html.twig', [
             'controller_name' => 'DashboardController',
             'websites' => $websites,
@@ -48,5 +54,20 @@ class DashboardController extends AbstractController
             'numSearchEngines' => $numSearchEngines
         ]);
 
+    }
+    public function fillJsonFile($userId, $website, $colonne, VisitorsRepository $visitors, $json){
+        //getting the data and filling the json files for each chart
+        $lineChartData = $visitors->baseChartQuery($userId, $website, $colonne);
+        $data = array();
+        for($i = 0; $i < count($lineChartData); $i++){
+            if(is_object($lineChartData[$i][$colonne]) && $lineChartData[$i][$colonne] instanceof \DateTime){
+                $dateString = $lineChartData[$i][$colonne]->format('Y-m-d');
+                $data[$dateString] = $lineChartData[$i]["number"];
+            }
+            else{
+                $data[$lineChartData[$i][$colonne]] = $lineChartData[$i]["number"];      
+            }
+        }   
+        $visitors->generateJSONFile($data, $json, $colonne);
     }
 }

@@ -24,10 +24,13 @@ fetch("/json/countries.json").then(response => response.json())
                                         let countriesPercent = document.createElement("div");
                                         countriesPercent.textContent = Math.floor(((Number(countriesNumbers[i])/countriesSum)*100)).toString()+"%";
                                         countriesPercent.className = "percentage";
+                                        let countriesPernumContainer = document.createElement("div");
+                                        countriesPernumContainer.className = "pernumContainer";
+                                        countriesPernumContainer.appendChild(countriesNumber);
+                                        countriesPernumContainer.appendChild(countriesPercent);
                                         countriesParent.appendChild(countriesItem);
                                         countriesItem.appendChild(countriesName);
-                                        countriesItem.appendChild(countriesNumber);
-                                        countriesItem.appendChild(countriesPercent);
+                                        countriesItem.appendChild(countriesPernumContainer);
                                     }
                                 })
                                 .catch(error => console.log("Error : ", error));

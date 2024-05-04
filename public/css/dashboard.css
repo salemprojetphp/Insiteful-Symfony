@@ -117,27 +117,24 @@ select {
     width: 90%;
     height: 40px;
     border-radius: 20px;
-    padding: 7px 50px 0px 20px;
+    padding: 5px 10px 5px 20px;
     background-color: #f7f7f7;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     column-gap: 10px;
 
 }  
+.pernumContainer{
+    display: flex;
+    flex-direction: row;
+    column-gap: 15%;
+}
 .percentage{
     background: #F18835;
     border-radius: 20px;
     width: 40px;
-    margin-bottom: 6px;
-    padding-top: 2px;
-    padding-left: 4px;
-    position: absolute;
-    left: 80%;
     text-align: center;
-}
-.number{
-    position: absolute;
-    left: 70%;
 }
 
 .devices-container{

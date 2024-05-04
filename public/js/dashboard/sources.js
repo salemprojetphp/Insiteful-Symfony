@@ -24,10 +24,13 @@ fetch('/json/sources.json').then(response => response.json())
                                         let sourcePercent = document.createElement("div");
                                         sourcePercent.textContent = Math.floor(((Number(sourcesNumbers[i])/sourcesSum)*100)).toString()+"%";
                                         sourcePercent.className = "percentage";
+                                        let sourcesPernumContainer = document.createElement("div");
+                                        sourcesPernumContainer.className = "pernumContainer";
+                                        sourcesPernumContainer.appendChild(sourceNumber);
+                                        sourcesPernumContainer.appendChild(sourcePercent);
                                         sourcesParent.appendChild(sourcesItem);
                                         sourcesItem.appendChild(sourceName);
-                                        sourcesItem.appendChild(sourceNumber);
-                                        sourcesItem.appendChild(sourcePercent);
+                                        sourcesItem.appendChild(sourcesPernumContainer);
                                     }
                                 })
                                 .catch(error => console.log("Error : ", error));

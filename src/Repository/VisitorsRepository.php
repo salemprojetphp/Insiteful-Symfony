@@ -57,26 +57,18 @@ class VisitorsRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getSingleScalarResult();
    }
-   public function generateJSONFile($queryRes, $JSONFileName, $colonne){
-        $data = array();
-        if($queryRes != ''){
-            foreach($queryRes as $result) : 
-                $data[$result->$colonne] = $result->number;
-            endforeach;
-        }
+   public function generateJSONFile($data, $JSONFileName, $colonne){
         $encoded_data = json_encode($data, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
-        file_put_contents("public/json/".$JSONFileName.".json", $encoded_data);
+        file_put_contents("../public/json/".$JSONFileName.".json", $encoded_data);
     }
     public function baseChartQuery($user_id, $website, $colonne){
         return $this->createQueryBuilder("v")
-                    ->select("v.:val1, count(v.website)")
+                    ->select("v.$colonne , count(v.website) as number")
                     ->where("v.user_id = :val2")
                     ->andWhere("v.website = :val3")
-                    ->groupBy("v.:val4")
-                    ->setParameter("val1", $colonne)
+                    ->groupBy("v.$colonne")
                     ->setParameter("val2", $user_id)
-                    ->setParameter("val2", $website)
-                    ->setParameter("val4", $colonne)
+                    ->setParameter("val3", $website)
                     ->getQuery()
                     ->getResult();
     }

@@ -9,7 +9,7 @@
         <h1>Analytics</h1>
         <section class="settings">
             <select onchange=redirect() id="websiteSelect">
-                <option id="websiteSelected" style="display:none">{% if websiteSelected is defined %} {{websiteSelected}} {% endif %}</option>
+                <option id="websiteSelected" style="display:none">{% if websiteSelected is defined %} {{websiteSelected}} {% else %} Select Website {% endif %}</option>
                 {#websites to select#}
                 {% for web in websites %}
                     <option><a href='#'>{{web.website}}</a></option>
