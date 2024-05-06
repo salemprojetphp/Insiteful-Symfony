@@ -73,6 +73,107 @@ select {
     height: 700px;
 }
 
+/* ADD WEBSITE FORM  */
+.add-website-url-input{
+    display: flex;
+    flex-direction: column;
+    column-gap: 10px;
+    margin-bottom: 20px;
+}
+.add-website-button-container{
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 20px;
+    margin-top: 20px;
+    background-color: transparent;
+}
+.btn-blue, 
+.btn-white{
+    height: 40px;
+    width: 100px;
+    background-color:#1F254C ;
+    font: 700 18px nunito sans;
+    font-weight: 400;
+    color: #fff;
+    padding: 6px 0px;
+    border: 0;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px rgba(0,0,0,.04);
+    cursor: pointer;
+    text-align: center;
+    transition: all .3s;
+}
+.btn-white {
+    color:#1F254C ;
+    background-color: whitesmoke;
+    scale: 0.8;
+}
+.btn-white:hover{
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    scale: 0.83;
+}
+.btn-blue:hover {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    scale: 1.02;
+}
+.add-website-form{
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    flex-direction: column;
+    column-gap: 10px;
+    row-gap: 20px;
+    margin-bottom: 20px;
+    padding: 1%;
+    position: fixed;
+    top: 25%;
+    left: 32%;
+    background-color: white;
+    border: 2px solid #1F254C;
+    border-radius: 10px;
+    width: 400px;
+    z-index: 999;
+}
+.add-website-form h2 {
+    justify-self: center;
+    align-self: center;
+}
+.add-website-form form {
+    flex-direction: column;
+    width: 80%;
+    align-self: center;
+    justify-content: center;
+}
+.input-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+}  
+.input-container input {
+    width: 100%;
+    height: 25px;
+} 
+#copy-button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    bottom: 0;
+    padding: 0;
+    height: 20px;
+    cursor: pointer;
+    background-color: white;
+}
+.add-website-script-container {
+    position: relative;
+}
+.hidden {
+    display:none;
+}
+.blurry
+{
+    filter: blur(5px);
+}
 .users-info-container{
     position: relative; 
     width: 100%;

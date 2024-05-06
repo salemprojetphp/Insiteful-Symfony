@@ -6,6 +6,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <body>
+    <div id="bg">
         <h1>Analytics</h1>
         <section class="settings">
             <select onchange=redirect() id="websiteSelect">
@@ -23,7 +24,7 @@
                 }
             </script>
             <!-- redirect redirects to a php page with information in GET about the website selected and time selected -->
-            <a href="#">
+            <a href="#" id="add-web-btn">
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAASVJREFUSEvt1sEqR0EUx/HPf83CE4i8gJI97yBbFoq8BB5CSim2fw/BAyi2LPAIUrL1n3+ubrdhhpn+lzJ1NzNzznfO+Z07cwZ6GoOeuHLAU1jDfMEhHzDEa+MjBZ7BFRYKoI3pLZbwEiZS4F0cVoA2LrZwkgPex15F8MHIV/CZjPhXg8/wiDlsJLJTNeJVXI6+FVz8KXBbz6baczQujjgXHDQ9baX0Bk8I//xia34zonlU41zwh3FCz1i2isC9RdwNdGIa/4OLb67cqi55M4qqeiLgHRyVkDq22zjuPouxVIfb6Pr95Snl32EZzzngsGca65gtIN/j/LOeKxZxAetr03bP1Ru4ViGlGshxKtqbahXSt8G1CmncRaZG1ulSTn6y3hv4Db9LWh8Uf/+cAAAAAElFTkSuQmCC"/>
             </a>
             <a href="/dashboard/pdf">
@@ -110,6 +111,35 @@
             </div>
         </div>
     </section>
+    </div>
+    {# add website form  #}
+    <section class="add-website-form hidden">
+        <h2>Add Website</h2>
+        <div class="flex" style="flex-direction:column;">
+            <div class="add-website-url-input">
+                {{ form_start(form) }}
+                {{ form_row(form.url) }}
+            </div>
+            <p>Copy the following script and paste it in your website's head tag : </p>
+            <br>
+            <div class="add-website-script-container">
+                <div class="input-container">
+                    <input type="text" id="input-value" value='<script src="https://salmasgh.github.io/WebTrackerScript/tracking.js"></script>' readonly>
+                    <a id="copy-button">
+                        <img src="{{ asset('images/copy.png') }}" height="18px">
+                    </a>
+                </div>
+            </div>
+            <br>
+            <div class="add-website-button-container">
+                <button class="btn-white" id="cancel-website-button">Cancel</button>
+                {{form_row(form.submit)}}
+            </div>
+                {{ form_end(form) }}
+        </div>
+    </section>
+            
     <script src={{asset('js/dashboard/userCharts.js')}} type="module"></script>
     <script src={{asset('js/dashboard/sourceCountryElements.js')}} type="module"></script>        
+    <script src={{asset('js/dashboard/addWebsite.js')}} defer ></script>
 {% endblock %}
