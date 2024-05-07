@@ -3,32 +3,38 @@
 namespace App\Controller;
 
 use App\Entity\Feedbacks;
+use App\Entity\User;
 use App\Form\FeedbacksType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class FeedbacksController extends AbstractController
 {
-    #[Route('/feedbacks/add', name: 'feedbacks.add')]
-    public function addFeedback(ManagerRegistry $doctrine,Request $request): Response
+    private $entityManager;
+
+    public function __construct(ManagerRegistry $doctrine)
     {
+        $this->entityManager = $doctrine->getManager();
+    }
+
+    #[Route('/feedbacks/add', name: 'feedbacks_add', methods: ['POST'])]
+    public function addFeedback(SessionInterface $session,ManagerRegistry $doctrine,Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
         $feedback = new Feedbacks();
         $entityManager = $doctrine->getManager();
-        $form = $this->createForm(FeedbacksType::class, $feedback);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $feedback->setDate(new \DateTime());
-            $feedback->setUserid($this->getUser());
-            $entityManager->persist($feedback);
-            $entityManager->flush();
-            return $this->redirectToRoute('feedbacks.add');
-        }
-        return $this->render('feedbacks/feedbacks.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $feedback->setHidden(0);
+        $feedback->setDate(new \DateTime());
+        $user = $this->entityManager->getRepository(User::class)->find($session->get('user'));
+        $feedback->setUserid($user);
+        $feedback->setFeedback($data['feedback']);
+        $entityManager->persist($feedback);
+        $entityManager->flush();
+        return new Response('ok');
     }
 }

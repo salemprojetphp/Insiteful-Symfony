@@ -22,11 +22,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-
-
-
-
-
+//contact part
 if(cancelContactBtn && contactBtn && contactForm) {
     contactBtn.addEventListener('click', function(event) {
         const contactFormDisplay = window.getComputedStyle(contactForm).getPropertyValue('display');
@@ -52,28 +48,28 @@ if(cancelContactBtn && contactBtn && contactForm) {
     });
 }
 
-
 if(contactBtn && contactForm) {
     contactBtn.addEventListener('click', function(event) {
         const contactFormDisplay = window.getComputedStyle(contactForm).getPropertyValue('display');})
 }
+
+//feedback part
 if(cancelFeedbackBtn && feedbackBtn && feedbackForm) {
     feedbackBtn.addEventListener('click', function(event) {
-        const feedbackFormDisplay = window.getComputedStyle(feedbackForm).getPropertyValue('display');
         event.preventDefault();
-        feedbackForm.style.display = (feedbackFormDisplay === 'none') ? 'flex' : 'none';
+        feedbackForm.classList.toggle('hidden');
         background.classList.toggle('blur');
     });
 
     cancelFeedbackBtn.addEventListener('click', function(event) {
         event.preventDefault();
-        feedbackForm.style.display = 'none';
+        feedbackForm.classList.add('hidden');
         background.classList.remove('blur');
     });
     document.addEventListener('click', (event) => {
         const targetElement = event.target;
         if (!targetElement.closest('.feedback-container') && targetElement !== feedbackBtn && feedbackForm.style.display === 'flex') {
-            feedbackForm.style.display = 'none';
+            feedbackForm.classList.add('hidden');
             background.classList.remove('blur');
         }
     });

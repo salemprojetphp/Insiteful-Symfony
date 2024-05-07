@@ -1,14 +1,37 @@
-
 const contentInput = document.getElementById('feedback');
 const submitButton = document.getElementById('add-btn');
-//can't submit if  content is empty
+const feedbackWindow = document.querySelector('.feedback-container');
+
 submitButton.addEventListener('click', function(event) {
-    let isEmpty = false;
+    event.preventDefault();
 
     if (contentInput.value.trim() === '') {
-        isEmpty = true;
+        console.log('Feedback content is empty');
+        return;
     }
-    if(isEmpty){
-        event.preventDefault();
-    }
+
+    const feedback = contentInput.value;
+
+    fetch('/feedbacks/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ feedback }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to add feedback');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Feedback added:', data);
+        // Handle success
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error
+    });
+    feedbackWindow.classList.add('hidden');
 });

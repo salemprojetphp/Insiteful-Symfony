@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block body%}
     {{parent()}}
     <link rel="stylesheet" href={{asset('css/Article.css')}}>
     <link rel="stylesheet" href={{asset('css/general.css')}}>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <main >
+    <main>
         <div class="full-article" id={{app.session.get('user').username}}>
             <div class="full-article-content">
                 <!-- Article  -->

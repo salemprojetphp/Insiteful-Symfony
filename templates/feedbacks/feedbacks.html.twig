@@ -1,15 +1,30 @@
+<link rel="stylesheet" type="text/css" href = {{asset("css/feedback.css")}}>
+<script src={{ asset('js/feedback.js') }} defer></script>
 
-    {{ form_start(form) }}
-    <link rel="stylesheet" type="text/css" href = {{asset("css/feedback.css")}}>
-
-
-            <h3>Feedback</h3>
+{# <div class="feedback-container">
+    <div class="feedback-content">
+        <h3>Feedback</h3>
+        {{form_start(form)}}
             <label class="feedback">How can we make the service better for you? </label>
-            {{ form_row(form.feedback, {'attr': {'class': 'feedback', 'style': 'min-height: 300px; min-width:400px;' }}) }}
-
+            {{form_row(form.feedback)}}
             <div class="account-btn-group">
-                <a href="" class="btn-secondary cancel-feedback-button">Cancel</a>
-                {{ form_widget(form.send, {'attr': {'class': 'btn-primary', 'id': 'add-btn'}}) }}
+                <a href="" class="btn-secondary cancel-feedback-button" >Cancel</a>
+                {{form_row(form.send)}}
             </div>
+        {{form_end(form)}}
+    </div>
+</div> #}
 
-    {{ form_end(form) }}
+<div class="feedback-container hidden">
+    <div class="feedback-content">
+        <h3>Feedback</h3>
+        <form action="/feedback/action" method="POST">
+            <label class="feedback">How can we make the service better for you? </label>
+            <textarea class="feedback" name="feedback" style="min-height: 300px; min-width:400px;" id ="feedback"></textarea>
+            <div class="account-btn-group">
+                <a href="" class="btn-secondary cancel-feedback-button" >Cancel</a>
+                <button type="submit" class="btn-primary" id="add-btn">   Send  </button>
+            </div>
+        </form>
+    </div>
+</div>
