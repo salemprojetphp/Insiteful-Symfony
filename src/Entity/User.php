@@ -38,9 +38,17 @@ class User
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $posts;
 
+    /**
+     * @var Collection<int, Feedbacks>
+     */
+    #[ORM\OneToMany(targetEntity: Feedbacks::class, mappedBy: 'userid')]
+    private Collection $feedbacks;
+
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->feedbacks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +140,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($post->getAuthor() === $this) {
                 $post->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feedbacks>
+     */
+    public function getFeedbacks(): Collection
+    {
+        return $this->feedbacks;
+    }
+
+    public function addFeedback(Feedbacks $feedback): static
+    {
+        if (!$this->feedbacks->contains($feedback)) {
+            $this->feedbacks->add($feedback);
+            $feedback->setUserid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedback(Feedbacks $feedback): static
+    {
+        if ($this->feedbacks->removeElement($feedback)) {
+            // set the owning side to null (unless already changed)
+            if ($feedback->getUserid() === $this) {
+                $feedback->setUserid(null);
             }
         }
 
