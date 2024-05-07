@@ -10,7 +10,7 @@ const cancelFeedbackBtn = document.querySelector('.cancel-feedback-button');
 
 if(openMenu && menu) {
     openMenu.addEventListener('click', (event) => {
-        event.stopPropagation(); 
+        event.stopPropagation();
         menu.style.display = menu.style.display == 'flex' ? 'none' : 'flex';
     });
 }
@@ -19,7 +19,7 @@ document.addEventListener('click', (event) => {
     const targetElement = event.target;
     if (!targetElement.closest('.user-session-info') && menu.style.display === 'flex') {
         menu.style.display = 'none';
-    } 
+    }
 });
 
 
@@ -40,16 +40,16 @@ if(cancelContactBtn && contactBtn && contactForm) {
         contactForm.style.display = 'none';
         background.classList.remove('blur');
     });
-    
+
     document.addEventListener('click', (event) => {
-    const targetElement = event.target;
-    console.log(!targetElement.closest('.contact-container'));
-    if (!targetElement.closest('.contact-container') && targetElement !== contactBtn && contactForm.style.display === 'block') {
-        contactForm.style.display = 'none';
-        background.classList.remove('blur');
-        
-    }
-});
+        const targetElement = event.target;
+        console.log(!targetElement.closest('.contact-container'));
+        if (!targetElement.closest('.contact-container') && targetElement !== contactBtn && contactForm.style.display === 'block') {
+            contactForm.style.display = 'none';
+            background.classList.remove('blur');
+
+        }
+    });
 }
 
 
@@ -71,12 +71,12 @@ if(cancelFeedbackBtn && feedbackBtn && feedbackForm) {
         background.classList.remove('blur');
     });
     document.addEventListener('click', (event) => {
-    const targetElement = event.target;
-    if (!targetElement.closest('.feedback-container') && targetElement !== feedbackBtn && feedbackForm.style.display === 'flex') {
-        feedbackForm.style.display = 'none';
-        background.classList.remove('blur');
-    }
-});
+        const targetElement = event.target;
+        if (!targetElement.closest('.feedback-container') && targetElement !== feedbackBtn && feedbackForm.style.display === 'flex') {
+            feedbackForm.style.display = 'none';
+            background.classList.remove('blur');
+        }
+    });
 }
 
 const optionMenu = document.querySelector(".selection-menu"),

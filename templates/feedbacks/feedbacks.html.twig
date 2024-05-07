@@ -1,0 +1,15 @@
+
+    {{ form_start(form) }}
+    <link rel="stylesheet" type="text/css" href = {{asset("css/feedback.css")}}>
+
+
+            <h3>Feedback</h3>
+            <label class="feedback">How can we make the service better for you? </label>
+            {{ form_row(form.feedback, {'attr': {'class': 'feedback', 'style': 'min-height: 300px; min-width:400px;' }}) }}
+
+            <div class="account-btn-group">
+                <a href="" class="btn-secondary cancel-feedback-button">Cancel</a>
+                {{ form_widget(form.send, {'attr': {'class': 'btn-primary', 'id': 'add-btn'}}) }}
+            </div>
+
+    {{ form_end(form) }}

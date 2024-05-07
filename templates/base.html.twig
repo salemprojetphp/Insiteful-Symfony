@@ -5,7 +5,7 @@
     <link rel="icon" href={{ asset('images/insiteful.png') }}>
     <link rel="stylesheet" href={{ asset('css/header.css')}}>
     <link rel="stylesheet" href={{asset('css/contact.css')}}>
-    <script src={{ asset('js/header.js') }} defer></script>
+    {# <script src={{ asset('js/header.js') }} defer></script> #}
 </head>
 
 {% block body %}
@@ -19,7 +19,7 @@
             <a href="/dashboard">Dashboard</a>
             <a href="/blog/1/recent">Blog</a>
             <a href="" class="contact-btn">Contact</a>
-            <a href="/" class="feedback-btn">Feedback</a>
+            <a href="/feedbacks/add" class="feedback-btn">Feedback</a>
             <a href="/auth" class="login-btn">Get Started</a>
         </div>
         <label for="check">
