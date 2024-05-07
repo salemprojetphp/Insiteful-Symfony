@@ -39,6 +39,12 @@ class User
     private Collection $posts;
 
     /**
+     * @var Collection<int, Websites>
+     */
+    #[ORM\OneToMany(targetEntity: Websites::class, mappedBy: 'owner')]
+    private Collection $websites;
+
+    /**
      * @var Collection<int, Feedbacks>
      */
     #[ORM\OneToMany(targetEntity: Feedbacks::class, mappedBy: 'userid')]
@@ -48,6 +54,7 @@ class User
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->websites = new ArrayCollection();
         $this->feedbacks = new ArrayCollection();
     }
 
@@ -140,6 +147,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($post->getAuthor() === $this) {
                 $post->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Websites>
+     */
+    public function getWebsites(): Collection
+    {
+        return $this->websites;
+    }
+
+    public function addWebsite(Websites $website): static
+    {
+        if (!$this->websites->contains($website)) {
+            $this->websites->add($website);
+            $website->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWebsite(Websites $website): static
+    {
+        if ($this->websites->removeElement($website)) {
+            // set the owning side to null (unless already changed)
+            if ($website->getOwner() === $this) {
+                $website->setOwner(null);
             }
         }
 

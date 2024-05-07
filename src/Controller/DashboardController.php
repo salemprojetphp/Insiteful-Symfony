@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Websites;
+use App\Entity\User;
+use App\Form\WebsiteType;
+use App\Repository\WebsitesRepository;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -8,26 +12,45 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Visitors;
 use App\Repository\VisitorsRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/dashboard', name: 'app_dashboard')]
 class DashboardController extends AbstractController
 {
     private $repository;
-    public function __construct(private ManagerRegistry $doctrine){
+    private $entityManager;
+    public function __construct(private ManagerRegistry $doctrine, EntityManagerInterface $entityManager){
         $this->repository = $doctrine->getRepository(Visitors::class);
+        $this->entityManager = $entityManager;
     }
     #[Route('/')]
-    public function index(VisitorsRepository $visitors): Response
+    public function index(SessionInterface $session,Request $request,VisitorsRepository $visitors): Response
     {
         $visitors->generateJSONFile('', "lineChart", "date");
         $visitors->generateJSONFile('', "browsersDonutChart", "browser");
         $visitors->generateJSONFile('', "devicesDonutChart", "device");
         $visitors->generateJSONFile('', "sources", "source");
         $visitors->generateJSONFile('', "countries", "country");
+        
+        //website form
+        $website = new Websites();
+        $userId = $session->get('user')->getId();
+        $user = $this->entityManager->getRepository(User::class)->find($userId);
+        $website->setOwner($user);
+        $form = $this->createForm(WebsiteType::class, $website);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->entityManager->persist($website);
+            $this->entityManager->flush();
+        }
+
         $websites = $visitors->findUserWebsites(1);
         return $this->render('dashboard/dashboard.html.twig', [
             'controller_name' => 'DashboardController',
             'websites' => $websites,
+            'form' => $form->createView(), 
         ]);
     }
     #[Route('/{website}')]
