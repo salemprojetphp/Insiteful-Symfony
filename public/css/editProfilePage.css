@@ -20,13 +20,13 @@ body{
     color: #1F254C;
 }
 
-.container{
+.editProfile-container{
     margin-top: 5%;
 }
 
 .button-container {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: row-reverse;
     justify-content: center;
     width: 70%;
 }
@@ -146,7 +146,6 @@ input {
     max-width: 100%;
     min-height: 480px;
     justify-content: space-between;
-
 }
 
 .left-column {
