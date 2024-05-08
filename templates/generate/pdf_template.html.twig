@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Template</title>
+    <style>
+        #redRectangle {
+            width: 200px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello PDF!</h1>
+    <p>This is a sample PDF generated from a Twig template.</p>
+    <div id="redRectangle"></div>
+    <script>
+        var redRectangle = document.getElementById('redRectangle');
+        redRectangle.style.width = '200px';
+        redRectangle.style.height = '100px';
+        redRectangle.style.backgroundColor = 'red';
+    </script>
+</body>
+</html>
