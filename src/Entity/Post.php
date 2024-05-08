@@ -39,7 +39,7 @@ class Post
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private ?Users $author = null;
 
     /**
      * @var Collection<int, Comment>
@@ -159,12 +159,12 @@ class Post
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): ?Users
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): static
+    public function setAuthor(?Users $author): static
     {
         $this->author = $author;
 
