@@ -14,9 +14,10 @@
             <p>0</p>
             <p>4</p>
         </div>
-        <div class="error-title">Page Not Found</div>
-        <div class="error-text">Oops! It seems like the page you are looking for does not exist.</div>
+        <div class="error-title">Ooops!</div>
+        <div class="error-text">{{ exception.message }}</div>
         <button class="go-home-button" onclick="goHome()">Go Home</button>
+
     </div>
     <script>
         function goHome() {
