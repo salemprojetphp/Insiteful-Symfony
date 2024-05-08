@@ -8,27 +8,57 @@
     <link rel="stylesheet" type="text/css" href = {{asset("css/feedback.css")}}>
     <script src={{ asset('js/header.js') }} defer></script>
 </head>
-
 {% block body %}
-    <input type="checkbox" id="check">
-    <header>
-        <h2>
-            <a href="/" class="logo"><img src={{ asset('images/insiteful.png') }} alt="logo"></a>
-        </h2>
-        <div class="navigation">
+<input type="checkbox" id="check">
+<header>
+    <h2>
+        <a href="/" class="logo"><img src={{ asset('images/insiteful.png') }} alt="logo"></a>
+    </h2>
+    <div class="navigation">
+{% if app.session.get('user') is not null %}
+    {% if app.session.get('user').Role == 'User'  %}
+                <a href="/">Home</a>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/blog/1/recent">Blog</a>
+                <a href="" class="contact-btn">Contact</a>
+                <a href="" class="feedback-btn">Feedback</a>
+            
+    {% elseif app.session.get('user').Role == 'Admin'  %}
+                <a href="/admin">Dashboard</a>
+                <a href="/blog/1/recent">Blog</a>
+                <a href="" class="feedback-btn">Feedback</a>
+
+    {% endif %}
+        <div class="selection-menu">
+            <div class="user-session-info">
+                <img src={{asset("images/user.png")}} width="36" height="36">
+                <span class="username-text">{{ app.session.get('user').Username }}</span>
+                <i class="bx bx-chevron-down"></i>
+            </div>
+            <ul class="options">
+                <li class="option">
+                    <a href="/editProfile" class="option-text">Profile</a>
+                </li>
+                <li class="option">
+                    <a href="/logout" class="option-text">Logout</a>
+                </li>
+            </ul>
+        </div>
+{% else %}
             <a href="/">Home</a>
             <a href="/dashboard">Dashboard</a>
             <a href="/blog/1/recent">Blog</a>
             <a href="" class="contact-btn">Contact</a>
             <a href="" class="feedback-btn">Feedback</a>
             <a href="/auth" class="login-btn">Get Started</a>
-        </div>
+{% endif %}
+    </div>
         <label for="check">
             <i class="fas fa-bars menu-btn"></i>
             <i class="fas fa-times close-btn"></i>
         </label>
     </header>
-{% endblock%}
+{% endblock %}
 {% include 'feedbacks/feedbacks.html.twig' %}
 
 {% block footer %}
