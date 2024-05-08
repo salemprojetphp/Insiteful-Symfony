@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent( )}}
+    <link rel="stylesheet" href={{asset("css/adminfeedback.css")}}>
+    <main>
+        <h1>
+            Feedbacks
+        </h1>
+        <div class="feedbacks-container">
+
+            {% if feedbacks|length == 0 %}
+                <h2>Looks like we're clear for now ! </h2>
+            {% else %}
+                {% for feedback in feedbacks %}
+                    <div class="feedbacks">
+                        <button id="remove">
+                            -
+                        </button>
+                        <div class="user">
+                            {{ feedback.userid.Username }}
+                        </div>
+                        <div class="dates">
+                            {{ feedback.date|date("Y-m-d") }}
+                        </div>
+                        <div class="contents">
+                            {{ feedback.feedback }}
+                        </div>
+                        <div id="feedbackid" style="display :none">
+                     
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+    <script>
+        const buttons = document.querySelectorAll("#remove");
+        const feedbackID = document.querySelector("#feedbackid").textContent;
+        buttons.forEach(addEventListener("click", (e) =>{
+            let feedback = e.target.parentNode;
+            if(feedback.className == "feedbacks" && e.target.id == "remove"){
+                fetch(`/adminFeedback?id=${feedbackID}`).then(feedback.remove());
+                
+            }
+        }))
+    </script>
+{% endblock %}

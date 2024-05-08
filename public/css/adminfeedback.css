@@ -6,30 +6,29 @@
 }
 body{
     margin-top: 200px;
-    margin-right: 50px;
-    margin-left: 50px;
-    overflow: hidden;
 }
+
 h1{
-    margin-left: 70px;
+    padding-left: 10%;
 }
-.container{
+
+.feedbacks-container{
     border: 1px solid rgb(225, 225, 225);
     margin-top: 50px;
     padding: 20px;
 }
-.feedback{
+.feedbacks{
     border: 1px solid rgb(225, 225, 225);
     padding: 20px;
     margin: 20px;
     .user{
         font-weight: 800;
     }
-    .date{
+    .dates{
         position: absolute;
         left: 1300px;
     }
-    .content{
+    .contents{
         width: 80%;
         overflow-wrap: break-word;
         margin-top: 20px;

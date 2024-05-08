@@ -15,7 +15,11 @@ class FeedbacksRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Feedbacks::class);
     }
-
+    public function getFeedbacks(){
+        return $this->createQueryBuilder('f')
+                    ->getQuery()
+                    ->getResult();
+    }
     //    /**
     //     * @return Feedbacks[] Returns an array of Feedbacks objects
     //     */

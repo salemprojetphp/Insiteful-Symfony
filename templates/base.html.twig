@@ -26,8 +26,8 @@
     {% elseif app.session.get('user').Role == 'Admin'  %}
                 <a href="/admin">Dashboard</a>
                 <a href="/blog/1/recent">Blog</a>
-                <a href="" class="feedback-btn">Feedback</a>
-
+                <a href="/admin/feedbacks">Feedback</a>
+                <a href="/notifications" class="notification-btn">Notifications <span>1</span></a>
     {% endif %}
         <div class="selection-menu">
             <div class="user-session-info">
