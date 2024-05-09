@@ -53,8 +53,9 @@ class DashboardController extends AbstractController
             'form' => $form->createView(), 
         ]);
     }
-    #[Route('/{website}')]
-    public function websiteSelected($website, VisitorsRepository $visitors){
+    #[Route('/{websiteURL}')]
+    public function websiteSelected($websiteURL, SessionInterface $session, Request $request,VisitorsRepository $visitors){
+        $website = 'https://salmasgh.github.io/' . $websiteURL .'/';
         //getting the users' websites
         $websites = $visitors->findUserWebsites(1);
         //getting the number of visits
@@ -67,6 +68,20 @@ class DashboardController extends AbstractController
         $this->fillJsonFile(1, $website, "device", $visitors, "devicesDonutChart");
         $this->fillJsonFile(1, $website, "referrer", $visitors, "sources");
         $this->fillJsonFile(1, $website, "country", $visitors, "countries");
+
+        //website form
+        $newwebsite = new Websites();
+        $userId = $session->get('user')->getId();
+        $user = $this->entityManager->getRepository(User::class)->find($userId);
+        $newwebsite->setOwner($user);
+        $form = $this->createForm(WebsiteType::class, $newwebsite);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->entityManager->persist($newwebsite);
+            $this->entityManager->flush();
+        }
+        // dd($numWebsiteVisits, $numDirectVisits, $numSocialMediaVisits, $numSearchEngines, $websites, $website, $form->createView());
+
         return $this->render('dashboard/dashboard.html.twig', [
             'controller_name' => 'DashboardController',
             'websites' => $websites,
@@ -74,7 +89,8 @@ class DashboardController extends AbstractController
             'numWebsiteVisits' => $numWebsiteVisits,
             'numDirectVisits' => $numDirectVisits,
             'numSocialMediaVisits' => $numSocialMediaVisits,
-            'numSearchEngines' => $numSearchEngines
+            'numSearchEngines' => $numSearchEngines,
+            'form' => $form->createView(),
         ]);
 
     }
