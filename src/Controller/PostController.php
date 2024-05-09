@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Form\PostType;
 use App\Entity\Post;
-use App\Entity\User;
+use App\Entity\Users;
 use App\Entity\Like;
 use App\Entity\Comment;
 use App\Form\CommentType;
@@ -113,7 +113,7 @@ class PostController extends AbstractController
         $post = new Post();
         $post->setDate(new \DateTime());
 
-        $userRepository = $this->entityManager->getRepository(User::class);
+        $userRepository = $this->entityManager->getRepository(Users::class);
         $authorID = $session->get('user')->getId();
         $author = $userRepository->find($authorID);
         $post->setAuthor($author);

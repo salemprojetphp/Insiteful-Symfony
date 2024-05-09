@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Feedbacks;
-use App\Entity\User;
-use App\Form\FeedbacksType;
+use App\Entity\Users;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +29,7 @@ class FeedbacksController extends AbstractController
         $entityManager = $doctrine->getManager();
         $feedback->setHidden(0);
         $feedback->setDate(new \DateTime());
-        $user = $this->entityManager->getRepository(User::class)->find($session->get('user'));
+        $user = $this->entityManager->getRepository(Users::class)->find($session->get('user'));
         $feedback->setUserid($user);
         $feedback->setFeedback($data['feedback']);
         $entityManager->persist($feedback);

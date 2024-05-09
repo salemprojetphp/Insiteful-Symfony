@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Visitors;
-use App\Entity\User;
+use App\Entity\Users;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

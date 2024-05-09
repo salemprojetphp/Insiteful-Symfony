@@ -43,10 +43,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Role = null;
+    private ?string $Role = 'User';
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $Verified = null;
+    private ?int $Verified = 0;
 
     /**
      * @var Collection<int, Post>

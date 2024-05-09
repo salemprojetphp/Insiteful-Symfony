@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Like;
 use App\Entity\Post;
-use App\Entity\User;
+use App\Entity\Users;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +31,7 @@ class LikeController extends AbstractController
         $post = $this->entityManager->getRepository(Post::class)->find($postId);
         $like = new Like();
         $like->setPostId($post);
-        $like->setUserId($this->entityManager->getRepository(User::class)->find($user));
+        $like->setUserId($this->entityManager->getRepository(Users::class)->find($user));
         
         $this->entityManager->persist($like);
         $this->entityManager->flush();

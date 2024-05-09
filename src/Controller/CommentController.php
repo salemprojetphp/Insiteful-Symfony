@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Entity\Post;
-use App\Entity\User;
+use App\Entity\Users;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +31,7 @@ class CommentController extends AbstractController
         $comment = new Comment();
         $comment->setDateSince((new \DateTime())->format('d F Y H:i:s'));
         $comment->setPostId($this->entityManager->getRepository(Post::class)->find($id));
-        $comment->setUserId($this->entityManager->getRepository(User::class)->find($session->get('user')->getId()));
+        $comment->setUserId($this->entityManager->getRepository(Users::class)->find($session->get('user')->getId()));
         $comment->setContent($content);
         $this->entityManager->persist($comment);
         $this->entityManager->flush();  

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Websites;
-use App\Entity\User;
+use App\Entity\Users;
 use App\Form\WebsiteType;
 use App\Repository\WebsitesRepository;
 
@@ -37,7 +37,7 @@ class DashboardController extends AbstractController
         //website form
         $website = new Websites();
         $userId = $session->get('user')->getId();
-        $user = $this->entityManager->getRepository(User::class)->find($userId);
+        $user = $this->entityManager->getRepository(Users::class)->find($userId);
         $website->setOwner($user);
         $form = $this->createForm(WebsiteType::class, $website);
         $form->handleRequest($request);
