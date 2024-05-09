@@ -20,7 +20,10 @@
 
         <!-- add btn for admin  -->
         {# to do : after sessions #}
-        <a href='/addPost' class='add-btn'>+</a>
+        {# {{dump(app.session.get('User'))}} #}
+        {% if  app.session.get('user').Role == 'Admin' %}
+            <a href='/addPost' class='add-btn'>+</a>
+        {% endif %}
 
 
         <!-- contenu -->
@@ -62,7 +65,7 @@
                                             <img src={{asset('/images/comment.svg')}} alt='comment'>
                                             <p>{{post.comments.count}}</p>
                                         </button>
-                                        {% if  app.session.get('user').role == 'admin' %}
+                                        {% if  app.session.get('user').role == 'Admin' %}
                                             <button class='more-btn'><img src={{asset('/images/more.svg')}} alt='more'></button>
                                             <div class='dropdown-menu'>
                                                 <button class='edit-btn' data-post-id='{{post.id}}'>Edit</button>
