@@ -20,7 +20,7 @@ class Comment
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?Users $user_id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
@@ -45,12 +45,12 @@ class Comment
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUserId(): ?Users
     {
         return $this->user_id;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUserId(?Users $user_id): static
     {
         $this->user_id = $user_id;
 

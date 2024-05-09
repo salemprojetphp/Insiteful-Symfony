@@ -3,7 +3,7 @@
 namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\Like;
-use App\Entity\User;
+use App\Entity\Users;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,7 +73,8 @@ class BlogController extends AbstractController
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
-        
+
+
         // Extract the post IDs from the array
         $likedPostIds = array_map(function($like) {
             return $like['postId'];

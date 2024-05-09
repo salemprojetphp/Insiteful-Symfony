@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Feedbacks;
 use App\Repository\FeedbacksRepository;
-use App\Repository\UserRepository;
+use App\Repository\UsersRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class AdminController extends AbstractController
 {
     #[Route('/')]
-    public function index(UserRepository $user, SessionInterface $session): Response
+    public function index(UsersRepository $user, SessionInterface $session): Response
     {
         if($session->get('user')->getRole() == "User"){
             $exception = ["message" => "Access denied"];

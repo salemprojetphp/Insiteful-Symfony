@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Users;
 use App\Entity\Post;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,9 +23,9 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(SessionInterface $session): Response
     {
-        $userRepository = $this->entityManager->getRepository(User::class);
-        $user = $userRepository->find(1);
-        $session->set('user', $user);
+        $userRepository = $this->entityManager->getRepository(Users::class);
+        //$user = $userRepository->find(1);
+        //$session->set('user', $user);
         return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
         ]);

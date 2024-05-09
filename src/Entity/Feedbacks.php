@@ -25,7 +25,7 @@ class Feedbacks
 
     #[ORM\ManyToOne(inversedBy: 'feedbacks')]
     #[ORM\JoinColumn(nullable: true)]
-    private ?User $userid = null;
+    private ?Users $userid = null;
 
 
 
@@ -78,12 +78,12 @@ class Feedbacks
         return $this;
     }
 
-    public function getUserid(): ?User
+    public function getUserid(): ?Users
     {
         return $this->userid;
     }
 
-    public function setUserid(?User $userid): static
+    public function setUserid(?Users $userid): static
     {
         $this->userid = $userid;
 
