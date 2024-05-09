@@ -18,7 +18,8 @@
                 {{ form_row(form.email,{
                     'value':user.email
                 }) }}
-                <div class="button-container">
+{#            <a href="{{ path('app_edit_password') }}" class="change-link">Change your password</a>#}
+            <div class="button-container">
                     <a href="/" class="cancel-button" rel="modal:close">Cancel Changes</a>
                     {{ form_row(form.submit) }}
                 </div>

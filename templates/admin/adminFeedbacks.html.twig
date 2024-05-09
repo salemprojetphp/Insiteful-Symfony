@@ -14,9 +14,9 @@
             {% else %}
                 {% for feedback in feedbacks %}
                     <div class="feedbacks">
-                        <button id="remove">
+                        <a href='/admin/delete/{{feedback.id}}' class="remove-button">
                             -
-                        </button>
+                        </a>
                         <div class="user">
                             {{ feedback.userid.Username }}
                         </div>

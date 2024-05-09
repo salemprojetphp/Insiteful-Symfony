@@ -28,6 +28,13 @@ class VisitorController extends AbstractController
         $visitor = new Visitors();
         $requestData = json_decode($request->getContent(), true);
 
+        // $websiteUrl = $requestData['website'] ?? null;
+        // $parsedUrl = parse_url($websiteUrl);
+        // $websitePath = $parsedUrl['path'];
+        // $websiteName = basename($websitePath);
+        // $websiteWithSuffix = $websiteName . ".com";
+        // $visitor->setWebsite($websiteWithSuffix);
+        
         $visitor->setWebsite($requestData['website'] ?? null);
         $visitor->setIp($requestData['ip'] ?? null);
         $visitor->setDate(new \DateTime('now'));
